@@ -23,23 +23,11 @@ public class Player : MonoBehaviour
         if (input != 0f)
         {
             transform.Translate(Vector3.back * input * 3f * Time.deltaTime);
-
-            // 이동 방향에 따른 애니메이터 변수 설정
-            if (input > 0f)
-            {
-                animator.SetBool("isFront", true);
-                animator.SetBool("isBack", false);
-            }
-            else
-            {
-                animator.SetBool("isFront", false);
-                animator.SetBool("isBack", true);
-            }
+            animator.SetInteger("Move", input > 0 ? 1 : -1);
         }
         else
         {
-            animator.SetBool("isFront", false);
-            animator.SetBool("isBack", false);
+            animator.SetInteger("Move", 0);
         }
 
         // 왼쪽 쉬프트 키 입력 처리
@@ -64,4 +52,6 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Kick");
         }
     }
+    
+    
 }
