@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public List<SphereCollider> attackColliders;
     public bool isAttacking = false;
 
+    public float speed = 3f;
+    public int hp = 100;
+
     void Awake()
     {
         instance = this;
@@ -45,7 +48,7 @@ public class Player : MonoBehaviour
         // 이동 입력 처리
         if (input != 0f)
         {
-            transform.Translate(Vector3.back * input * 3f * Time.deltaTime);
+            transform.Translate(Vector3.back * input * speed * Time.deltaTime);
             animator.SetInteger("Move", input > 0 ? 1 : -1);
         }
         else
