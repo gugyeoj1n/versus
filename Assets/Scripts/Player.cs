@@ -7,12 +7,35 @@ public class Player : MonoBehaviour
     public static Player instance;
     private Rigidbody rigid;
     private Animator animator;
+    public List<SphereCollider> attackColliders;
+    public bool isAttacking = false;
 
     void Awake()
     {
         instance = this;
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        attackColliders = FindAttack( transform );
+    }
+
+    private List<SphereCollider> FindAttack( Transform parent )
+    {
+        List<SphereCollider> capsuleColliders = new List<SphereCollider>();
+
+        foreach (Transform child in parent)
+        {
+            SphereCollider collider = child.GetComponent<SphereCollider>();
+            if(collider != null)
+            {
+                capsuleColliders.Add(collider);
+                collider.GetComponent<AttackCollider>( ).player = this;
+            }
+
+            capsuleColliders.AddRange(FindAttack(child));
+        }
+
+        return capsuleColliders;
     }
 
     void Update()
@@ -44,14 +67,19 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("Punch");
+            isAttacking = true;
         }
 
         // 마우스 우클릭 입력 처리
         if (Input.GetMouseButtonDown(1))
         {
             animator.SetTrigger("Kick");
+            isAttacking = true;
         }
     }
-    
-    
+
+    public void OnAttackFinished( )
+    {
+        isAttacking = false;
+    }
 }
