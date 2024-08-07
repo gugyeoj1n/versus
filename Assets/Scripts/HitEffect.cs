@@ -7,7 +7,7 @@ public class HitEffect : MonoBehaviour
 {
     void Start()
     {
-        DOVirtual.DelayedCall( 0.5f, ( ) => Destroy( gameObject ) );
+        DOVirtual.DelayedCall( 2f, ( ) => Destroy( gameObject ) );
     }
 
 }
